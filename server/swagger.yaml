@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: devServer
+  description: Api
+  version: 0.0.1
+servers:
+  - url: http://localhost:5000/api
+    description: dev
+paths:
+  /students:
+    get:
+      summary: Search students
+      operationId: getStudents
+      parameters:
+        - name: "page"
+          in: "query"
+          description: "current page"
+          type: "string"
+        - name: "count"
+          in: "query"
+          description: "count from one page"
+          type: "string"
+        - name: "query"
+          in: "query"
+          description: "query search from student"
+          type: "string"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/student'
+                required:
+                  - first_name
+                    - last_name
+                    - second_name
+                    - date_of_birth
+                    - academic_performance_id
+        204:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+              example:
+                message: User not found
+        422:
+          description: Error data
+          content:
+            application/json:
+              example:
+                message: Error data
+
+components:
+  schemas:
+    student:
+      description: Sdudent data
+      type: object
+      properties:
+        first_name:
+          $ref: '#/components/schemas/first_name'
+        last_name:
+          $ref: '#/components/schemas/last_name'
+        second_name:
+          $ref: '#/components/schemas/second_name'
+        date_of_birth:
+          $ref: '#/components/schemas/date_of_birth'
+        academic_performance_id:
+          $ref: '#/components/schemas/academic_performance_id'
+      required:
+        - first_name
+        - last_name
+        - second_name
+        - date_of_birth
+        - academic_performance_id
+
+    first_name:
+      description: First name
+      type: string
+      minLength: 3
+      maxLength: 64
+      example: Vladmir
+
+    last_name:
+      description: Last name
+      type: string
+      minLength: 3
+      maxLength: 64
+      example: Saenko
+
+    second_name:
+      description: Second name
+      type: string
+      minLength: 3
+      maxLength: 64
+      example: Edyardovich
+
+    date_of_birth:
+      description: Date birth
+      type: Date
+      minLength: 10
+      maxLength: 10
+      example: 2019-12-18
+
+    academic_performance_id:
+      description: academic Performance Id
+      type: number
+      example: 1
+
+    error:
+      description: Simple error
+      type: object
+      properties:
+        message:
+          type: string
+          example: Error data
+      required:
+        - message
