@@ -119,7 +119,7 @@ const ModalStudent = ({student, isOpen, toggle, listTypeAcademicPerformance, cre
                    required>
           <DatePicker style={{width: '100%'}}
                       locale={ru.DatePicker}
-                      value={moment(localStudent.date_of_birth)}
+                      value={localStudent.date_of_birth ? moment(localStudent.date_of_birth) : null}
                       onChange={(date, dateString) => setValueStudent('date_of_birth', dateString)}/>
         </Form.Item>
         <Form.Item label="Успеваемость"
